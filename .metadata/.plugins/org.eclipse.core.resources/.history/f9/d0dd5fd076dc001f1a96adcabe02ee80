@@ -1,0 +1,5 @@
+package com.finaltask.profileapp.model;
+
+public class Contact {
+
+}

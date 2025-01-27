@@ -1,0 +1,11 @@
+spring.application.name=profileapp
+spring.datasource.url=jdbc:sqlserver://136.226.250.97:1433;databaseName=profileappdb
+spring.datasource.username=janardhan
+spring.datasource.password=Training1234
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+spring.datasource.platform=sqlserver
+spring.datasource.initialization-mode=always
+
+spring.jpa.database-platform=org.hibernate.dialect.SQLServer2012Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
