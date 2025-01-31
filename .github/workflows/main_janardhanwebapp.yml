@@ -2,7 +2,8 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy JAR app to Azure Web App - janardhanwebapp
-
+env: # Or as an environment variable
+      APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.APP_CONFIGURATION_CONNECTION_STRING }}
 on:
   push:
     branches:
@@ -10,7 +11,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  # build:
+  #   runs-on: ubuntu-latest
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,24 +27,24 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+  #     - name: Upload artifact for deployment job
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: java-app
+  #         path: '${{ github.workspace }}/target/*.jar'
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   environment:
+  #     name: 'Production'
+  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: java-app
+  #   steps:
+  #     - name: Download artifact from build job
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: java-app
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -50,4 +53,4 @@ jobs:
           app-name: 'janardhanwebapp'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_879508A3C37F430995A212A114102913 }}
-          package: '*.jar'
+          package: '${{ github.workspace }}/target/*.jar'
